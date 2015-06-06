@@ -22,13 +22,13 @@ public class UserMovement : MonoBehaviour {
 
 
 		Vector3 movement = new Vector3 (moveHorizontal, moveVertical, 0.0f);
-		rigidbody.velocity = movement * speed * Time.deltaTime;
+		GetComponent<Rigidbody>().velocity = movement * speed * Time.deltaTime;
 	
 
-		rigidbody.position = new Vector3
+		GetComponent<Rigidbody>().position = new Vector3
 		(
-			Mathf.Clamp (rigidbody.position.x, xmin, xmax),
-			Mathf.Clamp (rigidbody.position.y, ymin, ymax),
+			Mathf.Clamp (GetComponent<Rigidbody>().position.x, xmin, xmax),
+			Mathf.Clamp (GetComponent<Rigidbody>().position.y, ymin, ymax),
 			-10f
 		);
 	}
