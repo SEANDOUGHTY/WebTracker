@@ -1,0 +1,41 @@
+#map{
+	width: 70%;
+	float: left; 
+	display: inline;
+	border-style: solid;
+	border-width: 5px;
+}
+
+#scrollbar{
+	width: 27%;
+	height: 450px;
+	float: right;
+	display: inline;
+	overflow-y: scroll;
+}
+
+.leaderboard {
+	border-radius: 5px;
+	border: 3px solid black;
+	height: 20px;
+	padding: 4px;
+	margin: 4px 4px 4px 4px;
+	background-color: rgba(233,246,255,0.3);
+	-webkit-transition: height 1s; /* Safari */
+	transition: height 1s;
+	overflow-y: hidden;
+}
+
+.leaderboard:hover {
+	height: 115px;
+	transition-delay:0.5s;
+}
+
+.leaderboard p{
+	margin:0px;
+}
+
+.leaderboard p:first-child{
+	font-size: 115%;
+	font-weight: bold;
+}
