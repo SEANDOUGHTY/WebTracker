@@ -30,6 +30,20 @@ if __name__ == "__main__":
     
     db = connect_database('localhost', 'root', '', 'wordpress2')
     
-    cur = set_table(db, 'wp_postmeta')
+    #cur = set_table(db, 'wp_postmeta')
     
+    roster = parseCars('http://www.worldsolarchallenge.org/api/positions')
     
+    cur = db.cursor()
+    
+    cur.execute('''
+    UPDATE wp_postmeta
+    SET meta_value = 2
+    WHERE meta_key = 'gmb_markers_group'
+    ''')
+    
+    db.commit()
+    
+    cur.close()
+    
+       
