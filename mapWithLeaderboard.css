@@ -24,6 +24,7 @@
 	-webkit-transition: height 1s; /* Safari */
 	transition: height 1s;
 	overflow-y: hidden;
+	cursor: pointer;
 }
 
 .leaderboard:hover {
