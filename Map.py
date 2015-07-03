@@ -1,5 +1,19 @@
 import MySQLdb, urllib, json, time
 
+host = '127.0.0.1'
+user = 'wordpressuser739'
+password = 't2[%Ch8lFw5T'
+databasename = 'wordpress739'
+url = 'http://www.worldsolarchallenge.org/api/positions'
+
+"""
+host = 'localhost'
+user = 'root'
+password = ''
+databasename = 'wordpress2'
+"""
+
+
 def connect_database(host, user, password, databasename):
     '''
     Takes database info and connects to the MySQL database
@@ -35,9 +49,14 @@ def blue_last(roster):
             roster[-1], roster[i] = roster[i], roster[-1]
     
     return roster    
+
+def find_blue_remaining(roster):
+    for i in range(len(roster)):
+        if roster[i]['name'] == 'Blue Sky Solar Racing':
+            return roster[i]['dist_adelaide']
     
 
-def edit_db(value, column):
+def edit_map(value, column):
     '''
     Function that will change a 'column' of wp_postmeta to 'value'
     '''
@@ -47,6 +66,28 @@ def edit_db(value, column):
     SET meta_value = %s
     WHERE meta_key = %s
     ''', (value, column))    
+
+def edit_scrollbar(value, column):
+    cur.execute('''
+    UPDATE wp_posts
+    SET post_content = %s
+    WHERE post_title = %s
+    ''', (value, column))    
+
+def create_scrollbar(roster, map_id):
+    string = '''
+    <div id="map">
+    [google_maps id="%s"] 
+    </div>
+
+    <div id="scrollbar">''' % (map_id)
+    
+    for i in range(len(roster)):
+        string += create_team_scrollbar(roster[i], i, find_blue_remaining(roster))
+                   
+    string += '</div>'
+    
+    return string
 
 
 def create_markers(roster, blue_remaining):
@@ -115,7 +156,40 @@ def create_team(data, blue_remaining):
          str(data['lng']))
     
     return string
+
+def create_team_scrollbar(data, place, blue_remaining):
     
+    string = '''
+     <div class="leaderboard">
+    <p>%s - %s</p>
+    <p>To Adelaide: %skm</p>
+    <p>From Blue Sky %skm</p>
+    <p>Country: %s</p>
+     </div> ''' % \
+                (place_string(place),
+                 data['name'],
+                 distance_shorten(data['dist_adelaide']),
+                 distance_shorten(data['dist_adelaide'] - blue_remaining),
+                 data['country'])
+    
+    return string
+                    
+                    
+def place_string(number):
+    number = str(number + 1)
+    
+    if number[-1] == 1:
+        return number + 'st'
+    if number[-1] == 2:
+        return number + 'nd'
+    if number[-1] == 3:
+        return number + 'rd'
+    return number + 'th'
+    
+def distance_shorten(distance):
+    distance = str(distance)
+    distance = distance[:distance.find('.')]
+    return distance
 
 def generate_description(data, blue_remaining, blue):
     '''
@@ -147,15 +221,24 @@ def set_center(data):
          str(len(str(data['lng']))),
          str(data['lng']))
     
-    edit_db(string, 'gmb_lat_lng')
+    edit_map(string, 'gmb_lat_lng')
 
 
 if __name__ == "__main__":
     
-    db = connect_database('localhost', 'root', '', 'wordpress2')
+    db = connect_database(host, user, password, databasename)
     cur = db.cursor()
    
-    roster = parseCars('http://www.worldsolarchallenge.org/api/positions')
+    roster = parseCars(url)
+
+
+    
+    scrollbar = create_scrollbar(roster, 4)
+    edit_scrollbar(scrollbar, 'Test Page')
+
+
+
+
     roster = blue_last(roster)
 
     set_center(roster[-1])
@@ -164,9 +247,8 @@ if __name__ == "__main__":
     markers = create_markers(roster, roster[-1]['dist_adelaide'])
 
     
-    
-    
-    edit_db(markers, 'gmb_markers_group')
+       
+    edit_map(markers, 'gmb_markers_group')
     
 
  
