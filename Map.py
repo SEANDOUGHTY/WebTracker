@@ -1,16 +1,28 @@
 import MySQLdb, urllib, json, time
 
+'''
+These global variables are need to configure your current environment to run
+the WebTracker
+'''
+
+
 host = '127.0.0.1'
 user = 'wordpressuser739'
 password = 't2[%Ch8lFw5T'
 databasename = 'wordpress739'
 url = 'http://www.worldsolarchallenge.org/api/positions'
+name = 'University of Toronto'
+map_id = 1797
+post_title = 'Test'
+
 
 """
+#Sean's Computer
 host = 'localhost'
 user = 'root'
 password = ''
 databasename = 'wordpress2'
+map_id = 4
 """
 
 
@@ -35,7 +47,7 @@ def parseCars(url):
     roster = urllib.urlopen(url)    #fetch from url
     roster = json.load(roster)      #parse into JSON
     
-    roster = [i for i in roster if i["class_id"] == 3] #only want challengers
+    roster = [i for i in roster if i["class_id"] == 5] #only want challengers
     
     return roster
 
@@ -45,14 +57,14 @@ def blue_last(roster):
     '''
     
     for i in range(len(roster)):
-        if roster[i]['name'] == 'Blue Sky Solar Racing':
+        if roster[i]['name'] == name:
             roster[-1], roster[i] = roster[i], roster[-1]
     
     return roster    
 
 def find_blue_remaining(roster):
     for i in range(len(roster)):
-        if roster[i]['name'] == 'Blue Sky Solar Racing':
+        if roster[i]['name'] == name:
             return roster[i]['dist_adelaide']
     
 
@@ -233,8 +245,8 @@ if __name__ == "__main__":
 
 
     
-    scrollbar = create_scrollbar(roster, 4)
-    edit_scrollbar(scrollbar, 'Test Page')
+    scrollbar = create_scrollbar(roster, map_id)
+    edit_scrollbar(scrollbar, post_title)
 
 
 
