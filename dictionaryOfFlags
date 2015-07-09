@@ -1,0 +1,26 @@
+//dictionary of flags. for full country name, consult the hyperlinks in the dictionary
+//these are the links that you would put in html tags
+//however, I think it is more efficient to save the images to a local computer. so for now it will serve as a place to get images
+//once the images are on our computer, they may all have to be resized to the same dimensions
+
+{	
+	'ca':'https://upload.wikimedia.org/wikipedia/en/c/cf/Flag_of_Canada.svg'
+	'us':'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/US_flag_48_stars.svg/220px-US_flag_48_stars.svg.png'
+	'ph':'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Flag_of_the_Philippines.svg/1280px-Flag_of_the_Philippines.svg.png'
+	'nl':'http://www.escaa.org/img/flags/nl.gif'
+	'ch':'http://www.mapsofworld.com/images/world-countries-flags/china-flag.jpg'
+	'jp':'http://psp2.psupedia.info/images/2/2b/JP_flag.png'
+	'hk':'http://www.flags.net/images/largeflags/CHIN0100.GIF'
+	'de':'http://www.crwflags.com/fotw/images/d/de.gif'
+	'nz':'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Flag_of_New_Zealand.svg/1200px-Flag_of_New_Zealand.svg.png'
+	'sg':'http://www.freeusandworldmaps.com/images/Flags_Images/Singapore-snflag.jpg'
+	'au':'https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Flag_of_Australia.svg/1280px-Flag_of_Australia.svg.png'
+	'id':'http://flagpedia.net/data/flags/ultra/id.png'
+	'tr':'http://www.rainbird-tbosll.eu/images/TR_flag.jpg'
+	'my':'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Flag_of_Malaysia.svg/2000px-Flag_of_Malaysia.svg.png'
+	'it':'https://upload.wikimedia.org/wikipedia/en/0/03/Flag_of_Italy.svg'
+	'be':'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Flag_of_Belgium.svg/2000px-Flag_of_Belgium.svg.png'
+	'co':'http://www.worldatlas.com/webimage/flags/countrys/zzzflags/colarge.gif'
+	'tw':'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Flag_of_the_Republic_of_China.svg/1280px-Flag_of_the_Republic_of_China.svg.png'
+	'se':'https://upload.wikimedia.org/wikipedia/en/4/4c/Flag_of_Sweden.svg'
+}
