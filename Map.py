@@ -94,8 +94,32 @@ def create_scrollbar(roster, map_id):
 
     <div id="scrollbar">''' % (map_id)
     
+    flagDict = {
+        'ca':('Canada','https://upload.wikimedia.org/wikipedia/en/c/cf/Flag_of_Canada.svg'),
+    	'us':('United States of America','https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/US_flag_48_stars.svg/220px-US_flag_48_stars.svg.png'),
+    	'ph':('Phillipines','https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Flag_of_the_Philippines.svg/1280px-Flag_of_the_Philippines.svg.png'),
+    	'nl':('Netherlands','http://www.escaa.org/img/flags/nl.gif'),
+    	'ch':('China','http://www.mapsofworld.com/images/world-countries-flags/china-flag.jpg'),
+    	'jp':('Japan','http://psp2.psupedia.info/images/2/2b/JP_flag.png'),
+    	'hk':('Hong Kong','http://www.flags.net/images/largeflags/CHIN0100.GIF'),
+    	'de':('Germany','http://www.crwflags.com/fotw/images/d/de.gif'),
+    	'nz':('New Zealand','https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Flag_of_New_Zealand.svg/1200px-Flag_of_New_Zealand.svg.png'),
+    	'sg':('Singapore','http://www.freeusandworldmaps.com/images/Flags_Images/Singapore-snflag.jpg'),
+    	'au':('Australia','https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Flag_of_Australia.svg/1280px-Flag_of_Australia.svg.png'),
+    	'id':('Indonesia','http://flagpedia.net/data/flags/ultra/id.png'),
+    	'tr':('Turkety','http://www.rainbird-tbosll.eu/images/TR_flag.jpg'),
+    	'my':('Malaysia','https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Flag_of_Malaysia.svg/2000px-Flag_of_Malaysia.svg.png'),
+    	'it':('Italy','https://upload.wikimedia.org/wikipedia/en/0/03/Flag_of_Italy.svg'),
+    	'be':('Belgium','https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Flag_of_Belgium.svg/2000px-Flag_of_Belgium.svg.png'),
+    	'co':('Colombia','http://www.worldatlas.com/webimage/flags/countrys/zzzflags/colarge.gif'),
+    	'tw':('Taiwan','https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Flag_of_the_Republic_of_China.svg/1280px-Flag_of_the_Republic_of_China.svg.png'),
+    	'se':('Sweden','https://upload.wikimedia.org/wikipedia/en/4/4c/Flag_of_Sweden.svg')
+    }
+    
     for i in range(len(roster)):
-        string += create_team_scrollbar(roster[i], i, find_blue_remaining(roster))
+        curCar = roster[i]
+        curCarName = curCar['name']
+        string += create_team_scrollbar(curCar, i, find_blue_remaining(roster), flagDict[curCarName][0], flagDict[curCarName][1])
                    
     string += '</div>'
     
@@ -169,7 +193,7 @@ def create_team(data, blue_remaining):
     
     return string
 
-def create_team_scrollbar(data, place, blue_remaining):
+def create_team_scrollbar(data, place, blue_remaining, carCountryFull, carCountryImg):
     
     string = '''
      <div class="leaderboard">
@@ -177,12 +201,15 @@ def create_team_scrollbar(data, place, blue_remaining):
     <p>To Adelaide: %skm</p>
     <p>From Blue Sky %skm</p>
     <p>Country: %s</p>
+    <center><img src="%s" alt="%s"></center>
      </div> ''' % \
                 (place_string(place),
                  data['name'],
                  distance_shorten(data['dist_adelaide']),
                  distance_shorten(data['dist_adelaide'] - blue_remaining),
-                 data['country'])
+                 carCountryFull,
+                 carCountryImg,
+                 carCountryFull)
     
     return string
                     
