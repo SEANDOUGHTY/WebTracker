@@ -5,7 +5,7 @@ These global variables are need to configure your current environment to run
 the WebTracker
 '''
 
-
+"""
 host = '127.0.0.1'
 user = 'wordpressuser739'
 password = 't2[%Ch8lFw5T'
@@ -14,7 +14,7 @@ url = 'http://www.worldsolarchallenge.org/api/positions'
 name = 'University of Toronto'
 map_id = 1797
 post_title = 'Test'
-
+"""
 
 """
 #Sean's Computer
@@ -24,6 +24,17 @@ password = ''
 databasename = 'wordpress2'
 map_id = 4
 """
+
+#nick's Computer
+host = '127.0.0.1'
+user = 'root'
+password = ''
+databasename = 'wordpress'
+map_id = 4
+url = 'http://www.worldsolarchallenge.org/api/positions'
+name = 'University of Toronto'
+post_title = 'Track Our Progress'
+
 
 
 def connect_database(host, user, password, databasename):
@@ -99,7 +110,7 @@ def create_scrollbar(roster, map_id):
     	'us':('United States of America','https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/US_flag_48_stars.svg/220px-US_flag_48_stars.svg.png'),
     	'ph':('Phillipines','https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Flag_of_the_Philippines.svg/1280px-Flag_of_the_Philippines.svg.png'),
     	'nl':('Netherlands','http://www.escaa.org/img/flags/nl.gif'),
-    	'ch':('China','http://www.mapsofworld.com/images/world-countries-flags/china-flag.jpg'),
+    	'cn':('China','http://www.mapsofworld.com/images/world-countries-flags/china-flag.jpg'),
     	'jp':('Japan','http://psp2.psupedia.info/images/2/2b/JP_flag.png'),
     	'hk':('Hong Kong','http://www.flags.net/images/largeflags/CHIN0100.GIF'),
     	'de':('Germany','http://www.crwflags.com/fotw/images/d/de.gif'),
@@ -113,13 +124,16 @@ def create_scrollbar(roster, map_id):
     	'be':('Belgium','https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Flag_of_Belgium.svg/2000px-Flag_of_Belgium.svg.png'),
     	'co':('Colombia','http://www.worldatlas.com/webimage/flags/countrys/zzzflags/colarge.gif'),
     	'tw':('Taiwan','https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Flag_of_the_Republic_of_China.svg/1280px-Flag_of_the_Republic_of_China.svg.png'),
-    	'se':('Sweden','https://upload.wikimedia.org/wikipedia/en/4/4c/Flag_of_Sweden.svg')
+    	'se':('Sweden','https://upload.wikimedia.org/wikipedia/en/4/4c/Flag_of_Sweden.svg'),
+        'ch':('Switzerland','http://longislandtennismagazine.com/sites/default/files/imagecache/400xY/Swiss_Flag.GIF'),
+        'cl':('Chile','https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Flag_of_Chile.svg/2000px-Flag_of_Chile.svg.png'),
+        'kr':('South Korea','https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/2000px-Flag_of_South_Korea.svg.png')
     }
     
     for i in range(len(roster)):
         curCar = roster[i]
-        curCarName = curCar['name']
-        string += create_team_scrollbar(curCar, i, find_blue_remaining(roster), flagDict[curCarName][0], flagDict[curCarName][1])
+        curCarCountry = roster[i]['country']
+        string += create_team_scrollbar(curCar, i, find_blue_remaining(roster), flagDict[curCarCountry][0], flagDict[curCarCountry][1])
                    
     string += '</div>'
     
