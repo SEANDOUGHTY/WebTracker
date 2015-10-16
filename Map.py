@@ -156,7 +156,7 @@ def create_markers(roster, blue_remaining):
     
     
     string = """a:%s:{""" % \
-        (str(len(roster)+len(control_stop)))
+        (str(len(roster)+len(control_stop)+len(start_end)))
     
     for i in range(len(roster) - 1):            #for loop to add all teams
         team_string = """i:%s;a:8:%s""" % \
@@ -176,6 +176,13 @@ def create_markers(roster, blue_remaining):
              create_control(control_stop[i]))
         
         string += control_string
+        
+    for i in range(len(start_end)):
+        start_end_string = """i:%s;a:8:%s""" % \
+            ((len(roster) + len(control_stop) + i),
+            create_start_end(start_end[i]))
+                
+        string += start_end_string
     
     string += '}'
     return string
@@ -229,7 +236,7 @@ def create_control(data):
     Function to create a generaic control stop
     '''
 
-    string = """{s:5:"title";s:%s:"%s";s:11:"description";s:%s:"%s";s:9:"reference";s:0:"";s:12:"hide_details";b:0;s:3:"lat";s:%s:"%s";s:3:"lng";s:%s:"%s";s:6:"marker";s:0:"";s:5:"label";s:0:"";}""" % \
+    string = """{s:5:"title";s:%s:"%s";s:11:"description";s:%s:"%s";s:9:"reference";s:0:"";s:12:"hide_details";b:0;s:3:"lat";s:%s:"%s";s:3:"lng";s:%s:"%s";s:6:"marker";s:111:"{ path : SQUARE_PIN, fillColor : "#428BCA", fillOpacity : 1, strokeColor : "", strokeWeight: 0, scale : 1 / 3 }";s:5:"label";s:100:"<i class="map-icon-route" style="color:#FFFFFF; font-size: 20px;position: relative; top: 12px;"></i>";}""" % \
         (str(len(data['name'])), 
          data['name'], 
          
@@ -244,6 +251,25 @@ def create_control(data):
     
     return string
 
+def create_start_end(data):
+    '''
+    Function to create a generaic control stop
+    '''
+    
+    string = """{s:5:"title";s:%s:"%s";s:11:"description";s:%s:"%s";s:9:"reference";s:0:"";s:12:"hide_details";b:0;s:3:"lat";s:%s:"%s";s:3:"lng";s:%s:"%s";s:6:"marker";s:111:"{ path : SQUARE_PIN, fillColor : "#428BCA", fillOpacity : 1, strokeColor : "", strokeWeight: 0, scale : 1 / 3 }";s:5:"label";s:100:"<i class="map-icon-route" style="color:#FFFFFF; font-size: 20px;position: relative; top: 12px;"></i>";}""" % \
+        (str(len(data['name'])), 
+         data['name'], 
+             
+         str(len(str(data['description']))), 
+         str(data['description']),
+            
+         str(len(str(data['lat']))), 
+         str(data['lat']), 
+            
+         str(len(str(data['lng']))), 
+         str(data['lng']))
+        
+    return string    
 
 def create_team_scrollbar(data, place, blue_remaining, carCountryFull, carCountryImg):
     if carCountryFull != 'not found':
