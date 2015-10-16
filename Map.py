@@ -26,7 +26,7 @@ map_id = 4
 """
 
 #nick's Computer
-"""
+
 host = '127.0.0.1'
 user = 'root'
 password = ''
@@ -34,8 +34,8 @@ databasename = 'wordpress'
 map_id = 4
 url = 'http://www.worldsolarchallenge.org/api/positions'
 name = 'Blue Sky Solar Racing'
-post_title = 'Track Our Progress'
-"""
+post_title = 'i fkin love darwin'
+
 
 
 def connect_database(host, user, password, databasename):
