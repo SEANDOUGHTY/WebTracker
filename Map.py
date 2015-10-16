@@ -129,13 +129,17 @@ def create_scrollbar(roster, map_id):
         'ch':('Switzerland','swiss-flag.jpg'),
         'cl':('Chile','chilean-flag.jpg'),
         'kr':('South Korea','south-korean-flag.jpg')
+        'gb':('Great Britain','british-flag')
     }
     
     for i in range(len(roster)):
         curCar = roster[i]
         curCarCountry = roster[i]['country']
-        string += create_team_scrollbar(curCar, i, find_blue_remaining(roster), flagDict[curCarCountry][0], flagDict[curCarCountry][1])
-                   
+        if curCarCountry in flagDict:
+            string += create_team_scrollbar(curCar, i, find_blue_remaining(roster), flagDict[curCarCountry][0], flagDict[curCarCountry][1])
+        else:
+            string += create_team_scrollbar(curCar, i, find_blue_remaining(roster), 'not found', 'not found')
+            
     string += '</div>'
     
     return string
@@ -209,22 +213,36 @@ def create_team(data, blue_remaining):
     return string
 
 def create_team_scrollbar(data, place, blue_remaining, carCountryFull, carCountryImg):
-    
-    string = '''
-     <div class="leaderboard">
-    <p>%s - %s</p>
-    <p>To Adelaide: %skm</p>
-    <p>From Blue Sky %skm</p>
-    <p>Country: %s</p>
-    <center><img src="%s" alt="%s"></center>
-     </div> ''' % \
-                (place_string(place),
-                 data['name'],
-                 distance_shorten(data['dist_adelaide']),
-                 distance_shorten(data['dist_adelaide'] - blue_remaining),
-                 carCountryFull,
-                 carCountryImg,
-                 carCountryFull)
+    if carCountryFull != 'not found':
+        string = '''
+         <div class="leaderboard">
+        <p>%s - %s</p>
+        <p>To Adelaide: %skm</p>
+        <p>From Blue Sky %skm</p>
+        <p>Country: %s</p>
+        <center><img src="%s" alt="%s"></center>
+         </div> ''' % \
+                    (place_string(place),
+                     data['name'],
+                     distance_shorten(data['dist_adelaide']),
+                     distance_shorten(data['dist_adelaide'] - blue_remaining),
+                     carCountryFull,
+                     carCountryImg,
+                     carCountryFull)
+        
+    else:
+        string = '''
+         <div class="leaderboard">
+        <p>%s - %s</p>
+        <p>To Adelaide: %skm</p>
+        <p>From Blue Sky %skm</p>
+        
+         </div> ''' % \
+                    (place_string(place),
+                     data['name'],
+                     distance_shorten(data['dist_adelaide']),
+                     distance_shorten(data['dist_adelaide'] - blue_remaining)
+                     )
     
     return string
                     
