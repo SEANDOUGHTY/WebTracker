@@ -36,7 +36,21 @@ name = 'Blue Sky Solar Racing'
 post_title = 'i fkin love darwin'
 
 
-control_stop = [{'name': 'testing', 'description': 'test', 'lat': -34.922809, 'lng': 138.601913}]
+control_stop = [{'name': 'Control Stop 1', 'description': 'Katherine', 'lat': -14.4666667, 'lng': 132.2666667},
+                {'name': 'Control Stop 2', 'description': 'Dunmarra', 'lat': -16.67983333, 'lng': 133.41188889},
+                {'name': 'Control Stop 3', 'description': 'Tennant Creek', 'lat': -19.65775, 'lng': 134.1885},
+                {'name': 'Control Stop 4', 'description': 'Barow Creek', 'lat': -21.5319444, 'lng': 133.8888889},
+                {'name': 'Control Stop 5', 'description': 'Alice Springs', 'lat': -23.70861111, 'lng': 133.87555556},
+                {'name': 'Control Stop 6', 'description': 'Kulgera', 'lat': -25.83911111, 'lng': 133.31572222},
+                {'name': 'Control Stop 7', 'description': 'Coober Pedy', 'lat': -29.01105556, 'lng': 134.75466667},
+                {'name': 'Control Stop 8', 'description': 'Glendambo', 'lat': -30.96986111, 'lng': 135.749},
+                {'name': 'Control Stop 9', 'description': 'Port Augusta', 'lat': -32.50919444, 'lng': 137.79672222}
+                ]
+
+
+start_end = [{'name': 'Start: Darwin', 'description': 'State Square, Darwin', 'lat': -12.46305556, 'lng': 130.83780556},
+             {'name': 'Finish: Adelaide', 'description': 'Victoria Square, Adelaide ', 'lat': -34.9306000, 'lng':  138.6042000}
+             ]
 
 url = 'http://www.worldsolarchallenge.org/api/positions'
 name = 'Blue Sky Solar Racing'
