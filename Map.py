@@ -78,6 +78,8 @@ def parseCars(url):
     
     roster = [i for i in roster if i["class_id"] == 5] #only want challengers
     
+          
+    
     return roster
 
 def blue_last(roster):
@@ -148,6 +150,11 @@ def create_scrollbar(roster, map_id):
         'kr':('South Korea','south-korean-flag.jpg'),
         'gb':('Great Britain','great-britan-flag.jpg')
     }
+
+    string += '''
+              <p>Track the progress of Horizon as we race 3000km across the Australian outback!
+              Make sure to keep up with our social media pages, which can be found at the bottom of this webpage.</p>
+              '''
     
     for i in range(len(roster)):
         curCar = roster[i]
@@ -343,8 +350,28 @@ def set_center(data):
     edit_map(string, 'gmb_lat_lng')
 
 
+def getFinishedTeamsRoster(roster):
+    '''
+    looks to see if any teams are finished and adds them to the beginning of the roster
+    '''
 
+    finishedFile = open('finishedTeams.txt','w+') #load the file that shows the teams that finished the race
+    finishedTeams = json.load(finishedFile)       #..and parse them into an array of dictionaries
+    
+    for j in range(len(roster)):                 #look through each item in the roster and determine if they are finished
+        #if the team is finished but not on the finishedList, add and remove from roster
+        if not any (finishedTeams['name'] == roster[i]['name']) && roster[i]['dist_adelaide'] < 1.0:                 
+               finishedTeams.append(roster[i])
+               del roster[i]
+        else if any(finishedTeams['name'] == roster[i]['name']):    #else, remove from roster
+               del roster[i]
 
+    roster = finishedTeams + roster              #then append all the finished teams to the beginning of the roster, we should have the correct order now
+    finishedFile.write(str(finishedTeams))       #you do not need to truncate the file before re writing the list of dictionaries because opening in w+ mode does so.
+    
+    finishedFile.close()
+    
+    return roster
 
 if __name__ == "__main__":
     
@@ -358,18 +385,16 @@ if __name__ == "__main__":
    
     roster = [i for i in roster if i["class_id"] == 5] #only want challengers
 
+    
+    roster = getFinishedTeamsRoster(roster)
+    scrollbar = create_scrollbar(roster, map_id)
 
     
-    scrollbar = create_scrollbar(roster, map_id)
     edit_scrollbar(scrollbar, post_title)
-
-
-
 
     roster = blue_last(roster)
 
     set_center(roster[-1])
-
 
     markers = create_markers(roster, roster[-1]['dist_adelaide'])
 
