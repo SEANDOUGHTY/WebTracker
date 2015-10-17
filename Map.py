@@ -1,4 +1,5 @@
 import MySQLdb, urllib, json, time
+from collections import OrderedDict
 
 '''
 These global variables are need to configure your current environment to run
@@ -23,7 +24,7 @@ map_id = 6
 image_root = 'http://localhost/wordpressblue2/wp-content/uploads/2015/10/'
 post_title = 'Test'
 
-
+'''
 #nick's Computer
 
 host = '127.0.0.1'
@@ -34,7 +35,7 @@ map_id = 4
 url = 'http://www.worldsolarchallenge.org/api/positions'
 name = 'Blue Sky Solar Racing'
 post_title = 'i fkin love darwin'
-
+'''
 
 control_stop = [{'name': 'Control Stop 1', 'description': 'Katherine', 'lat': -14.4666667, 'lng': 132.2666667},
                 {'name': 'Control Stop 2', 'description': 'Dunmarra', 'lat': -16.67983333, 'lng': 133.41188889},
@@ -185,7 +186,6 @@ def create_markers(roster, blue_remaining):
              create_team(roster[i], blue_remaining))
                 
         string += team_string
-        print(i)
         
     string += """i:%s;a:8:""" % \
         (str(len(roster)-1)) + \
@@ -381,23 +381,59 @@ def getFinishedTeamsRoster(roster):
     looks to see if any teams are finished and adds them to the beginning of the roster
     '''
 
-    finishedFile = open('finishedTeams.txt','w+') #load the file that shows the teams that finished the race
+    finishedFile = open("finishedTeams.txt","r") #load the file that shows the teams that finished the race
+    
     finishedTeams = json.load(finishedFile)       #..and parse them into an array of dictionaries
     
-    for j in range(len(roster)):                 #look through each item in the roster and determine if they are finished
+    roster = finishedTeams + roster               #combine the finished teams and the roster
+    roster = remove_repeats(roster)                 #removing any repeated terms
+    finishedFile.close()
+    
+    '''
+    for i in range(len(roster)):                 #look through each item in the roster and determine if they are finished
         #if the team is finished but not on the finishedList, add and remove from roster
-        if not any (finishedTeams['name'] == roster[i]['name']) && roster[i]['dist_adelaide'] < 1.0:                 
-               finishedTeams.append(roster[i])
-               del roster[i]
-        else if any(finishedTeams['name'] == roster[i]['name']):    #else, remove from roster
-               del roster[i]
+        
+        
+
+        if not any (finishedTeams['name'] == roster[i]['name']) and roster[i]['dist_adelaide'] < 1.0:                 
+            finishedTeams.append(roster[i])
+            del roster[i]
+        elif any(finishedTeams['name'] == roster[i]['name']):    #else, remove from roster
+            del roster[i]
 
     roster = finishedTeams + roster              #then append all the finished teams to the beginning of the roster, we should have the correct order now
-    finishedFile.write(str(finishedTeams))       #you do not need to truncate the file before re writing the list of dictionaries because opening in w+ mode does so.
+    '''
+    
+    finishedTeams = []                          #reseting finished teams
+    for i in range(len(roster)):                #interating through the roster
+        if roster[i]['dist_adelaide'] < 3:      #searching for finished teams
+            finishedTeams.append(roster[i])
+    
+    
+        
+    
+    finishedFile = open("finishedTeams.txt", "w")    #rewriting the finishedTeams file
+    finishedFile.write(json.dumps(finishedTeams))       #you do not need to truncate the file before re writing the list of dictionaries because opening in w+ mode does so.
     
     finishedFile.close()
     
     return roster
+
+
+def remove_repeats(seq):
+    for i in seq:
+        occured = False
+        for j in seq:
+            if i == j:
+                if occured:
+                    seq.remove(j)
+                    continue
+                else:
+                    occured = True
+                
+    
+    return seq
+        
 
 if __name__ == "__main__":
     
