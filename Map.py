@@ -445,10 +445,10 @@ if __name__ == "__main__":
     db = connect_database(host, user, password, databasename)
     cur = db.cursor()
    
-    roster = parseCars(url)
+    #roster = parseCars(url)
     #bypass mode
-    #roster = open("positions.txt", "r")    #fetch from url
-    #roster = json.load(roster)      #parse into JSON
+    roster = open("positions.txt", "r")    #fetch from url
+    roster = json.load(roster)      #parse into JSON
    
     roster = [i for i in roster if i["class_id"] == 5] #only want challengers
 
