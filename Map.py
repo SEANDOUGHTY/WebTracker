@@ -6,15 +6,18 @@ These global variables are need to configure your current environment to run
 the WebTracker
 '''
 
-'''
+
 host = '127.0.0.1'
 user = 'wordpressuser739'
 password = 't2[%Ch8lFw5T'
 databasename = 'wordpress739'
 map_id = 1797
-post_title = 'Test'
-'''
+post_title = 'Race Tracker'
+image_root = 'http://www.blueskysolar.utoronto.ca/wordpress/wp-content/uploads/2015/10/'
+url = 'http://www.worldsolarchallenge.org/api/positions'
+name = 'Blue Sky Solar Racing'
 
+'''
 #Sean's Computer
 host = 'localhost'
 user = 'root'
@@ -23,7 +26,7 @@ databasename = 'wordpress4'
 map_id = 6
 image_root = 'http://localhost/wordpressblue2/wp-content/uploads/2015/10/'
 post_title = 'Test'
-
+'''
 '''
 #nick's Computer
 
@@ -152,11 +155,27 @@ def create_scrollbar(roster, map_id):
         'gb':('Great Britain','great-britan-flag.jpg')
     }
 
-    string += '''
-              <p>Track the progress of Horizon as we race 3000km across the Australian outback!
-              Make sure to keep up with our social media pages, which can be found at the bottom of this webpage.</p>
-              '''
     
+    #create box for bssr at the top of the leaderboard. it will be distinct as the first child of the leaderboard
+    
+    #first we need to gather information about blue sky solar racing, find the index of our team
+    for j in range(len(roster)):
+        if (roster[j]['name'] == "Blue Sky Solar Racing"):
+            bssrIndex = j
+     
+    #now that we have the index we can extract information about it.   
+    string += '''
+              <div class = "leaderboardblue">
+              <p>%s - Blue Sky Solar Racing Team</p>
+              <p>To Adelaide: %skm</p>
+              <center><img src="%s" alt="%s"></center>
+              </div> ''' % \
+                    (bssrIndex + 1,
+                     distance_shorten(roster[bssrIndex]['dist_adelaide']),
+                     image_root + "canadian-flag.jpg",
+                     "Canada")
+        
+    #create boxes for other teams in the leaderboard, including bssr                         
     for i in range(len(roster)):
         curCar = roster[i]
         curCarCountry = roster[i]['country']
@@ -302,7 +321,7 @@ def create_team_scrollbar(data, place, blue_remaining, carCountryFull, carCountr
         <p>Country: %s</p>
         <center><img src="%s" alt="%s"></center>
          </div> ''' % \
-                    (place_string(place),
+                    (str(place + 1),
                      data['name'],
                      distance_shorten(data['dist_adelaide']),
                      distance_shorten(data['dist_adelaide'] - blue_remaining),
@@ -318,7 +337,7 @@ def create_team_scrollbar(data, place, blue_remaining, carCountryFull, carCountr
         <p>From Blue Sky %skm</p>
         
          </div> ''' % \
-                    (place_string(place),
+                    (str(place + 1),
                      data['name'],
                      distance_shorten(data['dist_adelaide']),
                      distance_shorten(data['dist_adelaide'] - blue_remaining)
@@ -389,20 +408,6 @@ def getFinishedTeamsRoster(roster):
     roster = remove_repeats(roster)                 #removing any repeated terms
     finishedFile.close()
     
-    '''
-    for i in range(len(roster)):                 #look through each item in the roster and determine if they are finished
-        #if the team is finished but not on the finishedList, add and remove from roster
-        
-        
-
-        if not any (finishedTeams['name'] == roster[i]['name']) and roster[i]['dist_adelaide'] < 1.0:                 
-            finishedTeams.append(roster[i])
-            del roster[i]
-        elif any(finishedTeams['name'] == roster[i]['name']):    #else, remove from roster
-            del roster[i]
-
-    roster = finishedTeams + roster              #then append all the finished teams to the beginning of the roster, we should have the correct order now
-    '''
     
     finishedTeams = []                          #reseting finished teams
     for i in range(len(roster)):                #interating through the roster
@@ -440,10 +445,10 @@ if __name__ == "__main__":
     db = connect_database(host, user, password, databasename)
     cur = db.cursor()
    
-   # roster = parseCars(url)
-   #bypass mode
-    roster = open("positions.txt", "r")    #fetch from url
-    roster = json.load(roster)      #parse into JSON
+    roster = parseCars(url)
+    #bypass mode
+    #roster = open("positions.txt", "r")    #fetch from url
+    #roster = json.load(roster)      #parse into JSON
    
     roster = [i for i in roster if i["class_id"] == 5] #only want challengers
 
